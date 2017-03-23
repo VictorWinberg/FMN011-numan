@@ -1,25 +1,44 @@
 # -*- coding: utf-8 -
 
 import numpy as np
-import math
 import matplotlib.pyplot as plt
+import math
 
-def fixedPoint(f, x):
-    while 1:
-        x = f(x)
-        print(x)
+x = np.linspace(-2, 3)
+print(x)
+
+def fixedPoint(f, x_i):
+    dx = x[1]- x[0]
+    df = np.diff(f(x)) / dx
+    print(np.abs(df) < 1)
+    for n in range(0, 1000):
+        try:
+            x_i = f(x_i)
+        except:
+            break
+    print(x_i)
 
 def f1(x):
-    return x**3-2*x-2
+    return (x**3 - 2) / 2
 
 def f2(x):
-    return np.exp(x)+x-7
+    return 7 - np.exp(x)
 
 def f3(x):
-    return np.exp(x)+np.sin(x)-4
+    return np.log(4 - np.sin(x))
 
-x = np.linspace(-5, 5)
-plt.plot(x, f1(x))
-plt.plot(x, f2(x))
-plt.plot(x, f3(x))
+plt.plot(x, x, label='x')
+plt.plot(x, f1(x), label='f1')
+plt.plot(x, f2(x), label='f2')
+plt.plot(x, f3(x), label='f3')
+plt.legend(loc='upper left')
+plt.draw()
+
+print(" --- f1 --- ")
+fixedPoint(f1, 2.0)
+print(" --- f2 --- ")
+fixedPoint(f2, -2.0)
+print(" --- f3 --- ")
+fixedPoint(f3, 2.0)
+
 plt.show()
