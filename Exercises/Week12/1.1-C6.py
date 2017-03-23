@@ -9,11 +9,11 @@ def bisection(f, a, b, sigma):
             a = c;
         elif f(c)*f(b) > 0:
             b = c;
-        print c
+        print(c)
     accurancy = (b - a) / 2.0
-    print accurancy
-    print c
-    print f(c)
+    print(accurancy)
+    print(c)
+    print(f(c))
     return f(c)
 
 def function(x):
