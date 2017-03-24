@@ -3,10 +3,19 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import math
-from _functions import fixedPoint
 
 x = np.linspace(-6, 6, num=1000)
 dx = x[1] - x[0]
+
+def fixedPoint(f, x_i):
+    for n in range(0, 1000):
+        try:
+            x_i = f(x_i)
+        except:
+            print("None")
+            return
+    print(x_i)
+    print(f(x_i))
 
 def f1_1(x):
     return (x**3 - 2) / 2

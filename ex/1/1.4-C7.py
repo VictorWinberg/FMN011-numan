@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -
 
-from scipy.misc import derivative
+from _functions import df, newton
 import numpy as np
 import matplotlib.pyplot as plt
 import math
@@ -8,23 +8,8 @@ import math
 x = np.linspace(-2, 2, num=1000)
 dx = x[1] - x[0]
 
-def newton(f, x_i):
-    for n in range(0, 1000):
-        try:
-            x_i -= f(x_i)/df(f, x_i)
-        except:
-            print("None")
-            return
-    return x_i
-
 def f(x):
     return np.exp(np.sin(x)**3) + x**6 - 2*x**4 - x**3 - 1
-
-def df(f):
-    return np.gradient(f(x), dx)
-
-def df(f, x_i):
-    return derivative(f, x_i, dx=dx)
 
 def pltSetup():
     plt.legend(loc='upper left')
@@ -39,13 +24,13 @@ pltSetup()
 plt.subplot(2, 1, 2)
 plt.plot(x, np.ones(x.size), 'k--', label='+-1')
 plt.plot(x, -np.ones(x.size), 'k--')
-plt.plot(x, df(f, x), label='df')
+plt.plot(x, df(f, x, dx), label='df')
 pltSetup()
 
 print(" --- roots of f --- ")
 r = 10
 for i in range(0, 3):
-    r = newton(f, r - 1)
+    r = newton(f, r - 1, dx)
     plt.subplot(2, 1, 1)
     plt.axvline(x=r, color='r', linestyle='dashed')
     plt.subplot(2, 1, 2)
