@@ -38,6 +38,12 @@ def f3(x):
 def df(f):
     return np.gradient(f(x), dx)
 
+def pltSetup():
+    plt.legend(loc='upper left')
+    plt.axhline(y=0, color='k')
+    plt.axvline(x=0, color='k')
+    plt.gca().set_ylim([-5,5])
+
 plt.subplot(2, 1, 1)
 plt.plot(x, x, 'k--', label='x')
 plt.plot(x, f1_1(x), label='f1_1')
@@ -46,10 +52,7 @@ plt.plot(x, f1_3(x), label='f1_3')
 plt.plot(x, f2_1(x), label='f2_1')
 plt.plot(x, f2_2(x), label='f2_2')
 plt.plot(x, f3(x), label='f3')
-plt.legend(loc='upper left')
-plt.axhline(y=0, color='k')
-plt.axvline(x=0, color='k')
-plt.gca().set_ylim([-5,5])
+pltSetup()
 
 plt.subplot(2, 1, 2)
 plt.plot(x, np.ones(x.size), 'k--', label='+-1')
@@ -60,10 +63,7 @@ plt.plot(x, df(f1_3), label='df1_3')
 plt.plot(x, df(f2_1), label='df2_1')
 plt.plot(x, df(f2_2), label='df2_2')
 plt.plot(x, df(f3), label='df3')
-plt.legend(loc='upper left')
-plt.axhline(y=0, color='k')
-plt.axvline(x=0, color='k')
-plt.gca().set_ylim([-5,5])
+pltSetup()
 
 plt.draw()
 
