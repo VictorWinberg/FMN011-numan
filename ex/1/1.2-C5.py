@@ -26,18 +26,22 @@ def f2(x):
 def df(f):
     return np.gradient(f(x), dx)
 
+plt.subplot(2, 1, 1)
 plt.plot(x, x, 'k--', label='x')
 plt.plot(x, f1(x), label='f1')
 plt.plot(x, f2(x), label='f2')
 plt.legend(loc='upper left')
+plt.axhline(y=0, color='k')
+plt.axvline(x=0, color='k')
 
-plt.figure()
-
+plt.subplot(2, 1, 2)
 plt.plot(x, np.ones(x.size), 'k--', label='+-1')
 plt.plot(x, -np.ones(x.size), 'k--')
 plt.plot(x, df(f1), label='df1')
 plt.plot(x, df(f2), label='df2')
 plt.legend(loc='upper left')
+plt.axhline(y=0, color='k')
+plt.axvline(x=0, color='k')
 
 plt.draw()
 
