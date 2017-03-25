@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -
 
+from _functions import fixedPoint
 import numpy as np
 import matplotlib.pyplot as plt
 import math
-from _functions import fixedPoint
 
 x = np.linspace(-6, 6, num=1000)
 dx = x[1] - x[0]

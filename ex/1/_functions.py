@@ -1,5 +1,3 @@
-from scipy.misc import derivative
-
 def bisection(f, a, b, sigma):
     while (b - a) / 2.0 > sigma:
         c = (a + b) / 2.0 # midpoint
@@ -14,12 +12,6 @@ def bisection(f, a, b, sigma):
     print(f(c))
     return f(c)
 
-def df(f, dx):
-    return np.gradient(f(x), dx)
-
-def df(f, x_i, dx):
-    return derivative(f, x_i, dx=dx)
-
 def fixedPoint(f, x_i):
     for n in range(0, 1000):
         try:
@@ -30,10 +22,10 @@ def fixedPoint(f, x_i):
     print(x_i)
     print(f(x_i))
 
-def newton(f, x_i, dx):
+def newton(f, x_i, dx, dfi):
     for n in range(0, 1000):
         try:
-            x_i -= f(x_i)/df(f, x_i, dx)
+            x_i -= f(x_i)/dfi(f, x_i)
         except:
             print("None")
             return

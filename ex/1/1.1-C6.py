@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -
 
-import math
 from _functions import bisection
+import math
 
-def function(x):
+def f(x):
     return math.cos(x) - math.sin(x)
 
-bisection(function, 0, 1, 1e-6)
+bisection(f, 0, 1, 1e-6)
