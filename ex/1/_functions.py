@@ -1,3 +1,5 @@
+import math
+
 def bisection(f, a, b, sigma):
     while (b - a) / 2.0 > sigma:
         c = (a + b) / 2.0 # midpoint
@@ -31,7 +33,12 @@ def newton(f, x_i, dx, dfi):
             return
     return x_i
 
-def pltSetup():
-    plt.legend(loc='upper left')
-    plt.axhline(y=0, color='k')
-    plt.axvline(x=0, color='k')
+def secant(f, x_prev, x_i, dx, dfi):
+    for n in range(0, 1000):
+        temp = x_i
+        div = (f(x_i) - f(x_prev))
+        if div == 0:
+            return x_i
+        x_i -= (f(x_i) * (x_i-x_prev)) / div
+        x_prev = temp
+    return x_i
