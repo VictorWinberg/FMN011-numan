@@ -35,6 +35,7 @@ plt.plot(x, f1(x), label='f1')
 plt.plot(x, f2(x), label='f2')
 plt.plot(x, f3(x), label='f3')
 pltSetup()
+plt.title('Assignment 1.5-C1')
 
 plt.subplot(2, 1, 2)
 plt.plot(x, df(f1), label='df1')

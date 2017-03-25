@@ -27,6 +27,7 @@ def pltSetup():
 plt.subplot(2, 1, 1)
 plt.plot(x, f(x), label='f1')
 pltSetup()
+plt.title('Assignment 1.4-C7')
 
 plt.subplot(2, 1, 2)
 plt.plot(x, np.ones(x.size), 'k--', label='+-1')
