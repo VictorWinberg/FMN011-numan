@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -
 
 from _functions import fixedPoint
+from plot import plot
 import numpy as np
 import matplotlib.pyplot as plt
 import math
 
 x = np.linspace(-4, 4, num=1000)
-dx = x[1] - x[0]
 
 def f1(x):
     return np.cos(x)
@@ -14,34 +14,12 @@ def f1(x):
 def f2(x):
     return np.cos(x)**2
 
-def df(f):
-    return np.gradient(f(x), dx)
+f = [f1, f2]
+roots = []
+for i in range(0, len(f)):
+    print(" --- " + f[i].__name__ + " --- ")
+    r = fixedPoint(f[i], 0, 1e-6)
+    roots.append(r['res'])
+    print(r)
 
-def pltSetup():
-    plt.legend(loc='upper left')
-    plt.axhline(y=0, color='k')
-    plt.axvline(x=0, color='k')
-
-plt.subplot(2, 1, 1)
-plt.plot(x, x, 'k--', label='x')
-plt.plot(x, f1(x), label='f1')
-plt.plot(x, f2(x), label='f2')
-pltSetup()
-plt.title('Assignment 1.2-C5')
-
-plt.subplot(2, 1, 2)
-plt.plot(x, np.ones(x.size), 'k--', label='+-1')
-plt.plot(x, -np.ones(x.size), 'k--')
-plt.plot(x, df(f1), label='df1')
-plt.plot(x, df(f2), label='df2')
-pltSetup()
-
-plt.draw()
-
-print(" --- f1 --- ")
-fixedPoint(f1, 0)
-
-print(" --- f2 --- ")
-fixedPoint(f2, 0)
-
-plt.show()
+plot(x, f, roots, title = "Assignment 1.2 C5")

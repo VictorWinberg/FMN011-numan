@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -
 
 from _functions import fixedPoint
+from plot import plot
 import numpy as np
 import matplotlib.pyplot as plt
 import math
 
 x = np.linspace(-6, 6, num=1000)
-dx = x[1] - x[0]
 
 def f1_1(x):
     return (x**3 - 2) / 2
@@ -26,49 +26,15 @@ def f2_2(x):
 def f3(x):
     return np.log(4 - np.sin(x))
 
-def df(f):
-    return np.gradient(f(x), dx)
+f = [f1_1, f1_2, f1_3, f2_1, f2_2, f3]
+roots = []
+sigma = 1e-8
 
-def pltSetup():
-    plt.legend(loc='upper left')
-    plt.axhline(y=0, color='k')
-    plt.axvline(x=0, color='k')
-    plt.gca().set_ylim([-5,5])
+for i in range(0, len(f)):
+    print(" --- " + f[i].__name__ + " --- ")
+    r = fixedPoint(f[i], 0, sigma)
+    print(r)
+    if r['error'] < sigma:
+        roots.append(r['res'])
 
-plt.subplot(2, 1, 1)
-plt.plot(x, x, 'k--', label='x')
-plt.plot(x, f1_1(x), label='f1_1')
-plt.plot(x, f1_2(x), label='f1_2')
-plt.plot(x, f1_3(x), label='f1_3')
-plt.plot(x, f2_1(x), label='f2_1')
-plt.plot(x, f2_2(x), label='f2_2')
-plt.plot(x, f3(x), label='f3')
-pltSetup()
-plt.title('Assignment 1.2-C1')
-
-plt.subplot(2, 1, 2)
-plt.plot(x, np.ones(x.size), 'k--', label='+-1')
-plt.plot(x, -np.ones(x.size), 'k--')
-plt.plot(x, df(f1_1), label='df1_1')
-plt.plot(x, df(f1_2), label='df1_2')
-plt.plot(x, df(f1_3), label='df1_3')
-plt.plot(x, df(f2_1), label='df2_1')
-plt.plot(x, df(f2_2), label='df2_2')
-plt.plot(x, df(f3), label='df3')
-pltSetup()
-
-plt.draw()
-
-print(" --- f1 --- ")
-fixedPoint(f1_1, 0)
-fixedPoint(f1_2, 0)
-fixedPoint(f1_3, 0)
-
-print(" --- f2 --- ")
-fixedPoint(f2_1, 0)
-fixedPoint(f2_2, 0)
-
-print(" --- f3 --- ")
-fixedPoint(f3, 0)
-
-plt.show()
+plot(x, f, roots, ylim = [-5, 5], title = "Assignment 1.2 C1")
