@@ -2,7 +2,7 @@ from math import sqrt
 from scipy.optimize import fsolve
 from _functions import geval
 
-def equations(x, *data):
+def stf(x, *data):
     a, b, d, L, h, X, Y = data
     X["T1"], X["T2"], X["T3"] = x
     return (
@@ -36,6 +36,6 @@ print(X["T1"], X["T2"], X["T3"])
 X["T1"], X["T2"], X["T3"] = fsolve(sqrtequations, [-10 for i in range(0, 3)], data)
 print(X["T1"], X["T2"], X["T3"])
 
-X["T1"], X["T2"], X["T3"] = fsolve(equations, (1, -5, 2), data)
+X["T1"], X["T2"], X["T3"] = fsolve(stf, (1, -5, 2), data)
 
 print(X["T1"], X["T2"], X["T3"])
