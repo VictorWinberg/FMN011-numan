@@ -27,7 +27,7 @@ def sqrtequations(x, *data):
     return (
         h[1]**2 - 4*(X["T1"] - X["P1"])**2,
         h[2]**2 - (X["T2"] - X["P2"])**2,
-        h[3]**2 - 4*(X["T3"] - X["P3"])**2,
+        h[3]**2 - 4*(X["T3"] - X["P3"])**2
     )
 
 X["T1"], X["T2"], X["T3"] = fsolve(sqrtequations, [10 for i in range(0, 3)], data)
@@ -36,4 +36,6 @@ print(X["T1"], X["T2"], X["T3"])
 X["T1"], X["T2"], X["T3"] = fsolve(sqrtequations, [-10 for i in range(0, 3)], data)
 print(X["T1"], X["T2"], X["T3"])
 
-X["T1"], X["T2"], X["T3"] = fsolve(equations, (5, 0, 5), data)
+X["T1"], X["T2"], X["T3"] = fsolve(equations, (1, -5, 2), data)
+
+print(X["T1"], X["T2"], X["T3"])
