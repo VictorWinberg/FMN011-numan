@@ -1,5 +1,5 @@
 from math import sqrt
-from scipy.optimize import fsolve
+from scipy.optimize import fsolve, newton
 from _functions import geval
 
 from mpl_toolkits.mplot3d import Axes3D
@@ -10,7 +10,6 @@ import numpy as np
 def stf(x, *data):
     a, b, d, L, h, X, Y = data
     X["T1"], X["T2"], X["T3"] = x
-    print(x)
     return (
         a**2 + 2*X["T1"]*X["T2"] - 2*X["T1"]*(X["P1"] + sqrt(3)*(Y["P1"]-Y["P2"])) - 2*X["P2"]*X["T2"]-((sqrt(3)*X["P1"]-Y["P1"]+Y["P2"])**2+(h[1]**2+h[2]**2)-4*X["P1"]**2-X["P2"]**2)+2*sqrt((h[1]**2-4*(X["T1"]-X["P1"])**2)*(h[2]**2-(X["T2"]-X["P2"])**2)),
         a**2 - 4*X["T1"]*X["T3"] - 2*X["T1"]*(X["P1"] - 3*X["P3"] + sqrt(3)*(Y["P1"] - Y["P3"]))-2*X["T3"]*(-3*X["P1"] + X["P3"] + sqrt(3)*(Y["P1"] - Y["P3"]))-((sqrt(3)*(X["P1"] + X["P3"]) - Y["P1"] + Y["P3"])**2 + (h[1]**2+h[3]**2) - 4*X["P1"]**2 - 4*X["P3"]**2)
@@ -45,6 +44,7 @@ print(X["T1"], X["T2"], X["T3"])
 
 X["T1"], X["T2"], X["T3"] = fsolve(starting_points, [10 for i in range(0, 3)], data)
 print(X["T1"], X["T2"], X["T3"])
+print()
 
 X["T1"], X["T2"], X["T3"] = fsolve(stf, (1, -5, 2), data)
 print(X["T1"], X["T2"], X["T3"])
@@ -65,7 +65,7 @@ def getyz(X, Y, h):
     }
     return Y, Z
 
-def solve(L):
+def solve(L, r=[]):
     a, b, d = 10, 15, 1
     X, Y, P, h = geval(L, b, d)
     data = a, b, d, L, h, X, Y
@@ -73,16 +73,12 @@ def solve(L):
     X["T1_0"], X["T2_0"], X["T3_0"] = fsolve(starting_points, [-10 for i in range(0, 3)], data)
     X["T1_1"], X["T2_1"], X["T3_1"] = fsolve(starting_points, [10 for i in range(0, 3)], data)
 
-    print(X["T1_0"], X["T1_1"])
-    print(X["T2_0"], X["T2_1"])
-    print(X["T3_0"], X["T3_1"])
+    if len(r) != 3:
+        r = (X["T1_0"] + X["T1_1"]) / 2, (X["T2_0"] + X["T2_1"]) / 2, (X["T3_0"] + X["T3_1"]) / 2
 
-    r1 = (X["T1_0"] + X["T1_1"]) / 2
-    r2 = (X["T2_0"] + X["T2_1"]) / 2
-    r3 = (X["T3_0"] + X["T3_1"]) / 2
-
-    X["T1"], X["T2"], X["T3"] = fsolve(stf, (r1, r2, r3), data)
+    X["T1"], X["T2"], X["T3"] = fsolve(stf, r, data)
     print(X["T1"], X["T2"], X["T3"])
+    print(stf((X["T1"], X["T2"], X["T3"]), *data))
 
     Y, Z = getyz(X, Y, h)
 
@@ -103,5 +99,5 @@ print(" ----- TASK 5 ----- ")
 solve([8 for i in range(0, 7)])
 solve([15 for i in range(0, 7)])
 solve([-1, 15, 15, 8, 8, 8, 8])
-# solve([-1, 8, 8, 8, 15, 15, 15])
+solve([-1, 8, 8, 8, 15, 15, 15], r=[2.5, 1.8, 0])
 plt.show()
