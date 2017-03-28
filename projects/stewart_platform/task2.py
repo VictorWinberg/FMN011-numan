@@ -20,9 +20,20 @@ L = [11.5 for i in range(0, 8)]
 X, Y, P, h = geval(L, b, d)
 
 data = a, b, d, L, h, X, Y
-print(data)
 
-X["T1"], X["T2"], X["T3"] = fsolve(equations, (10, 10, 10), data)
+def sqrtequations(x, *data):
+    a, b, d, L, h, X, Y = data
+    X["T1"], X["T2"], X["T3"] = x
+    return (
+        h[1]**2 - 4*(X["T1"] - X["P1"])**2,
+        h[2]**2 - (X["T2"] - X["P2"])**2,
+        h[3]**2 - 4*(X["T3"] - X["P3"])**2,
+    )
 
-print((X["T1"], X["T2"], X["T3"]))
-print(equations((X["T1"], X["T2"], X["T3"]), *data))
+X["T1"], X["T2"], X["T3"] = fsolve(sqrtequations, [10 for i in range(0, 3)], data)
+print(X["T1"], X["T2"], X["T3"])
+
+X["T1"], X["T2"], X["T3"] = fsolve(sqrtequations, [-10 for i in range(0, 3)], data)
+print(X["T1"], X["T2"], X["T3"])
+
+X["T1"], X["T2"], X["T3"] = fsolve(equations, (5, 0, 5), data)
