@@ -56,10 +56,14 @@ ax.plot_trisurf(*solve([-1, 8, 8, 8, 15, 15, 15], r=[2.5, 1.8, 0]))
 
 # Animation
 if input("See plots with animation? y/N ") == "y":
+    times = ""
+    while(times.isdigit() is False):
+        times = input("Iterations: ")
+
     ax = make3dfig()
     L = [-1, 0, 1.05, 2.09, 3.14, 4.19, 5.24]
 
-    for i in range(0, 100):
+    for i in range(0, int(times)):
         matrix = solve([1.5 * sin(i/10) + 2 * sin(i/10 + x) + 11.5 for x in L])
         surf = ax.plot_trisurf(*matrix, color='black')
         plt.pause(.001)
