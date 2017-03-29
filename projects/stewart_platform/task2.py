@@ -1,44 +1,20 @@
-from math import sqrt
-from scipy.optimize import fsolve, newton
-from _functions import geval
+from scipy.optimize import fsolve
+from _functions import *
 
 from mpl_toolkits.mplot3d import Axes3D
 import matplotlib.pyplot as plt
-import numpy as np
 
 # Task 2
-def stf(x, *data):
-    a, b, d, L, h, X, Y = data
-    X["T1"], X["T2"], X["T3"] = x
-    return (
-        a**2 + 2*X["T1"]*X["T2"] - 2*X["T1"]*(X["P1"] + sqrt(3)*(Y["P1"]-Y["P2"])) - 2*X["P2"]*X["T2"]-((sqrt(3)*X["P1"]-Y["P1"]+Y["P2"])**2+(h[1]**2+h[2]**2)-4*X["P1"]**2-X["P2"]**2)+2*sqrt((h[1]**2-4*(X["T1"]-X["P1"])**2)*(h[2]**2-(X["T2"]-X["P2"])**2)),
-        a**2 - 4*X["T1"]*X["T3"] - 2*X["T1"]*(X["P1"] - 3*X["P3"] + sqrt(3)*(Y["P1"] - Y["P3"]))-2*X["T3"]*(-3*X["P1"] + X["P3"] + sqrt(3)*(Y["P1"] - Y["P3"]))-((sqrt(3)*(X["P1"] + X["P3"]) - Y["P1"] + Y["P3"])**2 + (h[1]**2+h[3]**2) - 4*X["P1"]**2 - 4*X["P3"]**2)
-        +2*sqrt((h[1]**2 - 4*(X["T1"] - X["P1"])**2)*(h[3]**2 - 4*(X["T3"] - X["P3"])**2)),
-        a**2 + 2*X["T2"]*X["T3"] - 2*X["T3"]*(X["P3"] + sqrt(3)*(Y["P2"] - Y["P3"])) - 2*X["P2"]*X["T2"]
-        -((sqrt(3)*X["P3"] - Y["P2"] + Y["P3"])**2 + (h[2]**2+h[3]**2) - X["P2"]**2 - 4*X["P3"]**2)
-        +2*sqrt((h[2]**2 - (X["T2"] - X["P2"])**2)*(h[3]**2 - 4*(X["T3"] - X["P3"])**2))
-    )
-
 a, b, d = 10, 15, 1
 L = [11.5 for i in range(0, 7)]
 
 X, Y, P, h = geval(L, b, d)
 
-data = a, b, d, L, h, X, Y
-
 # TODO: Task 3
 
 
 # Task 4
-def starting_points(x, *data):
-    a, b, d, L, h, X, Y = data
-    X["T1"], X["T2"], X["T3"] = x
-    return (
-        h[1]**2 - 4*(X["T1"] - X["P1"])**2,
-        h[2]**2 - (X["T2"] - X["P2"])**2,
-        h[3]**2 - 4*(X["T3"] - X["P3"])**2
-    )
-
+data = h, X
 X["T1"], X["T2"], X["T3"] = fsolve(starting_points, [-10 for i in range(0, 3)], data)
 print(X["T1"], X["T2"], X["T3"])
 
@@ -46,58 +22,29 @@ X["T1"], X["T2"], X["T3"] = fsolve(starting_points, [10 for i in range(0, 3)], d
 print(X["T1"], X["T2"], X["T3"])
 print()
 
+data = a, h, X, Y
 X["T1"], X["T2"], X["T3"] = fsolve(stf, (1, -5, 2), data)
 print(X["T1"], X["T2"], X["T3"])
 
 print(stf((X["T1"], X["T2"], X["T3"]), *data))
 
 # Task 5
-def getyz(X, Y, h):
-    Y = {
-        "T1":  sqrt(3)*X["T1"] - (sqrt(3)*X["P1"]-Y["P1"]),
-        "T2": Y["P2"],
-        "T3": -sqrt(3)*X["T3"] + (sqrt(3)*X["P3"]+Y["P3"])
-    }
-    Z = {
-        "T1": sqrt(h[1]**2 - 4*(X["T1"]-X["P1"])**2),
-        "T2": sqrt(h[2]**2 - (X["T2"]-X["P2"])**2),
-        "T3": sqrt(h[3]**2 - 4*(X["T3"]-X["P3"])**2)
-    }
-    return Y, Z
-
-def solve(L, r=[]):
-    a, b, d = 10, 15, 1
-    X, Y, P, h = geval(L, b, d)
-    data = a, b, d, L, h, X, Y
-
-    X["T1_0"], X["T2_0"], X["T3_0"] = fsolve(starting_points, [-10 for i in range(0, 3)], data)
-    X["T1_1"], X["T2_1"], X["T3_1"] = fsolve(starting_points, [10 for i in range(0, 3)], data)
-
-    if len(r) != 3:
-        r = (X["T1_0"] + X["T1_1"]) / 2, (X["T2_0"] + X["T2_1"]) / 2, (X["T3_0"] + X["T3_1"]) / 2
-
-    X["T1"], X["T2"], X["T3"] = fsolve(stf, r, data)
-    print(X["T1"], X["T2"], X["T3"])
-    print(stf((X["T1"], X["T2"], X["T3"]), *data))
-
-    Y, Z = getyz(X, Y, h)
-
-    fig = plt.figure()
-    ax = fig.add_subplot(111, projection='3d')
-
-    xs = [X["T1"], X["T2"], X["T3"]]
-    ys = [Y["T1"], Y["T2"], Y["T3"]]
-    zs = [Z["T1"], Z["T2"], Z["T3"]]
-
-    ax.scatter(xs, ys, zs)
-
-    ax.set_xlabel('X')
-    ax.set_ylabel('Y')
-    ax.set_zlabel('Z')
-
 print(" ----- TASK 5 ----- ")
-solve([8 for i in range(0, 7)])
-solve([15 for i in range(0, 7)])
-solve([-1, 15, 15, 8, 8, 8, 8])
-solve([-1, 8, 8, 8, 15, 15, 15], r=[2.5, 1.8, 0])
+ax = make3dfig()
+
+ax.plot_trisurf(*solve([8 for i in range(0, 7)]))
+ax.plot_trisurf(*solve([15 for i in range(0, 7)]))
+ax.plot_trisurf(*solve([-1, 15, 15, 8, 8, 8, 8]))
+ax.plot_trisurf(*solve([-1, 8, 8, 8, 15, 15, 15], r=[2.5, 1.8, 0]))
+
+# Animation
+ax = make3dfig()
+
+L = [-1, 0, 1.05, 2.09, 3.14, 4.19, 5.24]
+
+for i in range(0, 100):
+    surf = ax.plot_trisurf(*solve([1.5 * sin(i/10) + 2 * sin(i/10 + x) + 11.5 for x in L]), color='black')
+    plt.pause(.001)
+    ax.collections.remove(surf)
+
 plt.show()
