@@ -3,6 +3,11 @@ from scipy.optimize import fsolve
 import matplotlib.pyplot as plt
 
 # Task 1
+def h(x, *data):
+    b, d = data
+    P = 1 / (2*b) * b**2
+    return x**2-P**2;
+
 def ph(L, b, d):
     l = [1, 2, 3]
     P = {i: 1 / (2*b) * (b**2 + L[2*i-1]**2 - L[2*i]**2) for i in l}
@@ -39,6 +44,13 @@ def stf(x, *data):
         -((sqrt(3)*X["P3"] - Y["P2"] + Y["P3"])**2 + (h[2]**2+h[3]**2) - X["P2"]**2 - 4*X["P3"]**2)
         +2*sqrt((h[2]**2 - (X["T2"] - X["P2"])**2)*(h[3]**2 - 4*(X["T3"] - X["P3"])**2))
     )
+
+# Task 3
+def solve_print(r, data):
+    a, h, X, Y = data
+    X["T1"], X["T2"], X["T3"] = fsolve(stf, r, data)
+    print(X["T1"], X["T2"], X["T3"])
+    print(stf((X["T1"], X["T2"], X["T3"]), *data))
 
 # Task 4
 def starting_points(x, *data):
