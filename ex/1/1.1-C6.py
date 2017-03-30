@@ -7,8 +7,7 @@ import math
 
 x = np.linspace(-2, 2)
 
-def f(x):
-    return np.cos(x) - np.sin(x)
+f = lambda x : np.cos(x) - np.sin(x)
 
 plt.plot(x, f(x), label='f')
 plt.legend(loc='upper left')

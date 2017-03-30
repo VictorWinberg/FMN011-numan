@@ -5,8 +5,8 @@ import matplotlib.pyplot as plt
 
 def plot(x, f, roots, ylim = None, title = "Title"):
     dx = x[1] - x[0]
-    def df(f):
-        return np.gradient(f(x), dx)
+    
+    def df(f) : return np.gradient(f(x), dx)
 
     for k in range(1, 3):
         plt.subplot(2, 1, k)

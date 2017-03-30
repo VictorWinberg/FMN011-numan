@@ -8,11 +8,8 @@ import math
 
 x = np.linspace(-4, 4, num=1000)
 
-def f1(x):
-    return np.cos(x)
-
-def f2(x):
-    return np.cos(x)**2
+def f1(x) : return np.cos(x)
+def f2(x) : return np.cos(x)**2
 
 f = [f1, f2]
 roots = []

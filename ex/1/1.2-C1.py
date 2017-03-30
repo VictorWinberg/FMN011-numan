@@ -8,23 +8,12 @@ import math
 
 x = np.linspace(-6, 6, num=1000)
 
-def f1_1(x):
-    return (x**3 - 2) / 2
-
-def f1_2(x):
-    return np.cbrt(2*x+2)
-
-def f1_3(x):
-    return 2 / (x**2-2)
-
-def f2_1(x):
-    return 7 - np.exp(x)
-
-def f2_2(x):
-    return np.log(7-x)
-
-def f3(x):
-    return np.log(4 - np.sin(x))
+def f1_1(x) : return (x**3 - 2) / 2
+def f1_2(x) : return np.cbrt(2*x+2)
+def f1_3(x) : return 2 / (x**2-2)
+def f2_1(x) : return 7 - np.exp(x)
+def f2_2(x) : return np.log(7-x)
+def f3(x) : return np.log(4 - np.sin(x))
 
 f = [f1_1, f1_2, f1_3, f2_1, f2_2, f3]
 roots = []

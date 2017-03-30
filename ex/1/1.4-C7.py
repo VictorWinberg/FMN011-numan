@@ -8,8 +8,7 @@ import math
 
 x = np.linspace(-2, 2, num=1000)
 
-def f(x):
-    return np.exp(np.sin(x)**3) + x**6 - 2*x**4 - x**3 - 1
+def f(x) : return np.exp(np.sin(x)**3) + x**6 - 2*x**4 - x**3 - 1
 
 print(" --- roots of f --- ")
 c = 10
