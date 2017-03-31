@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 
 from anim import make_gif, rotanimate
 import numpy as np
-import os, sys
+import os
 
 # Task 1
 print(" ----- TASK 1 ----- ")
@@ -91,8 +91,8 @@ if input("See plots with animation? y/N ") == "y":
     ax.plot_trisurf(xb, yb, zb, color='red')
 
     for i in range(0, int(times)):
-        angle = 45 * sin(i / 20)
-        ax.view_init(elev = 15, azim = angle)
+        # angle = 45 * sin(i / 20)
+        # ax.view_init(elev = 15, azim = angle)
 
         X, Y, Z = solve([2.5 * sin(i/10 + x) + 11.5 for x in L])
         surf = ax.plot_trisurf(*vectTop(X, Y, Z), color = 'blue')
