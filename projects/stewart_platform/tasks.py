@@ -33,26 +33,33 @@ solve_print((3, -6, 3), data)
 # Task 4
 print(" ----- TASK 4 ----- ")
 data = h, X
-X["T1"], X["T2"], X["T3"] = fsolve(starting_points, [-10 for i in range(0, 3)], data)
-print(X["T1"], X["T2"], X["T3"])
-
-X["T1"], X["T2"], X["T3"] = fsolve(starting_points, [10 for i in range(0, 3)], data)
-print(X["T1"], X["T2"], X["T3"])
+print(fsolve(starting_points, [-10 for i in range(0, 3)], data))
+print(fsolve(starting_points, [10 for i in range(0, 3)], data))
 print()
 
 data = a, h, X, Y
-X["T1"], X["T2"], X["T3"] = fsolve(stf, (1, -5, 2), data)
-print(X["T1"], X["T2"], X["T3"])
-print(stf((X["T1"], X["T2"], X["T3"]), *data))
+x = fsolve(stf, (1, -5, 2), data)
+print(x)
+print(stf(x, *data))
 
 # Task 5
 print(" ----- TASK 5 ----- ")
 ax = make3dfig()
 
-ax.plot_trisurf(*solve([8 for i in range(0, 7)]))
-ax.plot_trisurf(*solve([15 for i in range(0, 7)]))
-ax.plot_trisurf(*solve([-1, 15, 15, 8, 8, 8, 8]))
-ax.plot_trisurf(*solve([-1, 8, 8, 8, 15, 15, 15], r=[2.5, 1.8, 0]))
+lengths = [ [8 for i in range(0, 7)],
+            [15 for i in range(0, 7)],
+            [-1, 15, 15, 8, 8, 8, 8]]
+
+for i in range(3):
+    X, Y, Z = solve(lengths[i])
+    ax.plot_trisurf(*vectTop(X, Y, Z))
+
+X, Y, Z = solve([-1, 8, 8, 8, 15, 15, 15], r=[2.5, 1.8, 0])
+ax.plot_trisurf(*vectTop(X, Y, Z))
+
+X, Y = getVectBase(b, d, X, Y)
+xb, yb, zb = vectBase(X, Y, 0)
+ax.plot_trisurf(xb, yb, zb, color='red')
 
 # Animation
 if input("See plots with animation? y/N ") == "y":
@@ -62,11 +69,24 @@ if input("See plots with animation? y/N ") == "y":
 
     ax = make3dfig()
     L = [-1, 0, 1.05, 2.09, 3.14, 4.19, 5.24]
+    legs = []
+
+    ax.plot_trisurf(xb, yb, zb, color='red')
 
     for i in range(0, int(times)):
-        matrix = solve([1.5 * sin(i/10) + 2 * sin(i/10 + x) + 11.5 for x in L])
-        surf = ax.plot_trisurf(*matrix, color='black')
+        X, Y, Z = solve([1.5 * sin(i/10) + 2 * sin(i/10 + x) + 11.5 for x in L])
+        surf = ax.plot_trisurf(*vectTop(X, Y, Z), color='blue')
+
+        X, Y = getVectBase(b, d, X, Y)
+        xb, yb, zb = vectBase(X, Y, 0)
+        lx, ly, lz = getVectLegs(X, Y, Z)
+
+        for j in range(6):
+            legs.append(ax.plot_wireframe(lx[j], ly[j], lz[j], linewidths=7, colors='gray'))
+
         plt.pause(.001)
         ax.collections.remove(surf)
+        for j in range(6):
+            ax.collections.remove(legs.pop())
 
 plt.show()

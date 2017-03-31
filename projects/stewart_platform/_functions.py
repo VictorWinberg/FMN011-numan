@@ -63,7 +63,7 @@ def starting_points(x, *data):
     )
 
 # Task 5
-def getyz(X, Y, h):
+def getCordsTop(X, Y, h):
     Y = {
         "T1":  sqrt(3)*X["T1"] - (sqrt(3)*X["P1"]-Y["P1"]),
         "T2": Y["P2"],
@@ -89,14 +89,58 @@ def solve(L, r = None):
 
     data = a, h, X, Y
     X["T1"], X["T2"], X["T3"] = fsolve(stf, r, data)
+    Y, Z = getCordsTop(X, Y, h)
 
-    Y, Z = getyz(X, Y, h)
+    return X, Y, Z
 
-    xs = [X["T1"], X["T2"], X["T3"]]
-    ys = [Y["T1"], Y["T2"], Y["T3"]]
-    zs = [Z["T1"], Z["T2"], Z["T3"]]
+def vectTop(X, Y, Z):
+    xt = [X["T1"], X["T2"], X["T3"]]
+    yt = [Y["T1"], Y["T2"], Y["T3"]]
+    zt = [Z["T1"], Z["T2"], Z["T3"]]
+    return xt, yt, zt
 
-    return xs, ys, zs
+def vectBase(X, Y, z):
+    xb = [X["B1"], X["B2"], X["B3"], X["B4"], X["B5"], X["B6"]]
+    yb = [Y["B1"], Y["B2"], Y["B3"], Y["B4"], Y["B5"], Y["B6"]]
+    zb = [z for i in range(6)]
+    return xb, yb, zb
+
+def getVectBase(b, d, X, Y):
+    X["B1"] = sqrt(3) / 6 * (2*b + d)
+    X["B2"] = -sqrt(3) / 6 * (b - d)
+    X["B3"] = -sqrt(3) / 6 * (b + 2*d)
+    X["B4"] = -sqrt(3) / 6 * (b + 2*d)
+    X["B5"] = -sqrt(3) / 6 * (b - d)
+    X["B6"] = sqrt(3) / 6 * (2*b + d)
+
+    Y["B1"] = d / 2
+    Y["B2"] = (b + d) / 2
+    Y["B3"] = b / 2
+    Y["B4"] = -b / 2
+    Y["B5"] = -(b+d) / 2
+    Y["B6"] = -d / 2
+    return X, Y
+
+def getVectLegs(X, Y, Z):
+    lx = [[X["B1"], X["T1"]],
+            [X["B2"], X["T1"]],
+            [X["B3"], X["T2"]],
+            [X["B4"], X["T2"]],
+            [X["B5"], X["T3"]],
+            [X["B6"], X["T3"]]]
+    ly = [[Y["B1"], Y["T1"]],
+            [Y["B2"], Y["T1"]],
+            [Y["B3"], Y["T2"]],
+            [Y["B4"], Y["T2"]],
+            [Y["B5"], Y["T3"]],
+            [Y["B6"], Y["T3"]]]
+    lz = [[0, Z["T1"]],
+            [0, Z["T1"]],
+            [0, Z["T2"]],
+            [0, Z["T2"]],
+            [0, Z["T3"]],
+            [0, Z["T3"]]]
+    return lx, ly, lz
 
 def make3dfig():
     fig = plt.figure()
