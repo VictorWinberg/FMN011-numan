@@ -44,22 +44,30 @@ print(stf(x, *data))
 
 # Task 5
 print(" ----- TASK 5 ----- ")
-ax = make3dfig()
-
 lengths = [ [8 for i in range(0, 7)],
             [15 for i in range(0, 7)],
             [-1, 15, 15, 8, 8, 8, 8]]
 
-for i in range(3):
-    X, Y, Z = solve(lengths[i])
+for i in range(4):
+    ax = make3dfig()
+
+    if(i < 3):
+        X, Y, Z = solve(lengths[i])
+    else:
+        X, Y, Z = solve([-1, 8, 8, 8, 15, 15, 15], r=[2.5, 1.8, 0])
     ax.plot_trisurf(*vectTop(X, Y, Z))
 
-X, Y, Z = solve([-1, 8, 8, 8, 15, 15, 15], r=[2.5, 1.8, 0])
-ax.plot_trisurf(*vectTop(X, Y, Z))
+    X, Y = getVectBase(b, d, X, Y)
+    xb, yb, zb = vectBase(X, Y, 0)
+    ax.plot_trisurf(xb, yb, zb, color='red')
 
-X, Y = getVectBase(b, d, X, Y)
-xb, yb, zb = vectBase(X, Y, 0)
-ax.plot_trisurf(xb, yb, zb, color='red')
+    lx, ly, lz = getVectLegs(X, Y, Z)
+    for j in range(6):
+        ax.plot_wireframe(lx[j], ly[j], lz[j], linewidths = 5, colors='gray')
+
+for j in range(6):
+    legs = getVectLegs(X, Y, Z)[0][j], getVectLegs(X, Y, Z)[1][j], getVectLegs(X, Y, Z)[2][j]
+    ax.add_collection3d(ax.plot_wireframe(*legs, linewidths = 5, colors='gray'))
 
 # Animation
 if input("See plots with animation? y/N ") == "y":
