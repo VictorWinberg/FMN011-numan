@@ -105,7 +105,7 @@ def vectBase(X, Y, z):
     zb = [z for i in range(6)]
     return xb, yb, zb
 
-def getVectBase(b, d, X, Y):
+def getBase(b, d, X, Y):
     X["B1"] = sqrt(3) / 6 * (2*b + d)
     X["B2"] = -sqrt(3) / 6 * (b - d)
     X["B3"] = -sqrt(3) / 6 * (b + 2*d)
@@ -142,7 +142,19 @@ def getVectLegs(X, Y, Z):
             [0, Z["T3"]]]
     return lx, ly, lz
 
-def make3dfig():
+def getTwistTop(a, b, d, L, X, Y, Z):
+    X["T1"] = sqrt(3) / (4*b) * (L[1]**2 - L[2]**2) + 1/2 * sqrt(1/3 * a**2 - 1 / (4*b**2) * (L[2]**2 - L[1]**2)**2)
+    Y["T1"] = 1 / (4*b) * (L[2]**2 - L[1]**2) + sqrt(3) / 2 * sqrt(1/3 * a**2 - 1 / (4*b**2) * (L[2]**2 - L[1]**2)**2)
+    Z["T1"] = sqrt(1/2 * (L[2]**2 + L[1]**2) - 1/3 * (a**2 + b**2 + b*d + d**2) + (b + 2*d) / sqrt(3) * sqrt(1/3 * a**2 - 1 / (4*b**2) * (L[2]**2 - L[1]**2)**2))
+    X["T2"] = -sqrt(1/3 * a**2 - 1/(4*b**2) * (L[2]**2 - L[1]**2)**2)
+    Y["T2"] = -1 / (2*b) * (L[2]**2 - L[1]**2)
+    Z["T2"] = sqrt(1/2 * (L[2]**2 + L[1]**2) - 1/3 * (a**2 + b**2 + b*d + d**2) + (b + 2*d) / sqrt(3) * sqrt(1/3 * a**2 - 1/(4*b**2) * (L[2]**2 - L[1]**2)**2))
+    X["T3"] = sqrt(3) / (4*b) * (L[2]**2 - L[1]**2) + 1/2 * sqrt(1/3 * a**2 - 1 / (4*b**2) * (L[2]**2 - L[1]**2)**2)
+    Y["T3"] = 1 / (4*b) * (L[2]**2 - L[1]**2) - sqrt(3)/2 * sqrt(1/3 * a**2 - 1 / (4*b**2) * (L[2]**2 - L[1]**2)**2)
+    Z["T3"] = sqrt(1/2 * (L[2]**2 + L[1]**2) - 1/3 * (a**2 + b**2 + b*d + d**2) + (b + 2*d) / sqrt(3) * sqrt(1/3 * a**2 - 1/(4*b**2) * (L[2]**2 - L[1]**2)**2))
+    return X, Y, Z
+
+def make3dfig(text):
     fig = plt.figure()
     ax = fig.add_subplot(111, projection='3d')
     ax.set_xlabel('X-axis')
@@ -151,4 +163,6 @@ def make3dfig():
     ax.set_xlim3d(-10, 10)
     ax.set_ylim3d(-10, 10)
     ax.set_zlim3d(-10, 10)
+    ax.set_title("Victor Winberg & Anton Göransson")
+    ax.text(-2, -2, -10, text, (1, 1, 0))
     return ax
