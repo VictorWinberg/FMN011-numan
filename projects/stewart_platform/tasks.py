@@ -53,7 +53,7 @@ lengths = [ [8 for i in range(0, 7)],
             [-1, 15, 15, 8, 8, 8, 8]]
 
 for i in range(4):
-    ax = make3dfig("Figure " + str(i+1))
+    ax = make3dfig()
 
     if(i < 3):
         X, Y, Z = solve(lengths[i])
@@ -62,47 +62,49 @@ for i in range(4):
         L = [-1, 8, 15, 8, 15, 8, 15]
         X, Y, Z = getTwistTop(a, b, d, L, X, Y, Z)
 
-    ax.plot_trisurf(*vectTop(X, Y, Z), color='blue')
+    ax.plot_trisurf(*vectTop(X, Y, Z), color = 'blue')
 
     X, Y = getBase(b, d, X, Y)
     xb, yb, zb = vectBase(X, Y, 0)
-    ax.plot_trisurf(xb, yb, zb, color='red')
+    ax.plot_trisurf(xb, yb, zb, color = 'red')
 
     lx, ly, lz = getVectLegs(X, Y, Z)
     for j in range(6):
         ax.plot_wireframe(lx[j], ly[j], lz[j], linewidths = 5, colors='gray')
 
-    # angles = np.linspace(0,360,80)[:-1]
+    # # Create an animated gif with a 360 degrees rotation
+    # angles = [45 * sin(x / 20) for x in range(126)]
     #
-    # # create an animated gif (20ms between frames)
-    # rotanimate(ax, angles,'fig' + str(i+1) + '.gif', delay=5)
+    # rotanimate(ax, angles,'fig' + str(i+1) + '.gif', elev = 15, delay = 5)
 
-# Animation
+# Animation (Optional assignment)
 if input("See plots with animation? y/N ") == "y":
     times = ""
     while(times.isdigit() is False):
         times = input("Iterations: ")
 
     files = []
-    ax = make3dfig("Animation")
+    ax = make3dfig()
     L = [-1, 0, 1.05, 2.09, 3.14, 4.19, 5.24]
     legs = []
 
     ax.plot_trisurf(xb, yb, zb, color='red')
 
     for i in range(0, int(times)):
-        X, Y, Z = solve([1.5 * sin(i/10) + 2 * sin(i/10 + x) + 11.5 for x in L])
-        surf = ax.plot_trisurf(*vectTop(X, Y, Z), color='blue')
+        angle = 45 * sin(i / 20)
+        ax.view_init(elev = 15, azim = angle)
+
+        X, Y, Z = solve([2.5 * sin(i/10 + x) + 11.5 for x in L])
+        surf = ax.plot_trisurf(*vectTop(X, Y, Z), color = 'blue')
 
         X, Y = getBase(b, d, X, Y)
         xb, yb, zb = vectBase(X, Y, 0)
         lx, ly, lz = getVectLegs(X, Y, Z)
 
         for j in range(6):
-            legs.append(ax.plot_wireframe(lx[j], ly[j], lz[j], linewidths=7, colors='gray'))
+            legs.append(ax.plot_wireframe(lx[j], ly[j], lz[j], linewidths = 7, colors = 'gray'))
 
-        # # SNAPSHOT
-        # ax.view_init()
+        # # Saves and adds a picture to a series of pictures
         # fname = '%s%03d.png'%('tmprot_', i)
         # ax.figure.savefig(fname)
         # files.append(fname)
@@ -112,9 +114,10 @@ if input("See plots with animation? y/N ") == "y":
         for j in range(6):
             ax.collections.remove(legs.pop())
 
-# make_gif(files, "sickanime.gif", delay=5)
-#
-# for f in files:
-#     os.remove(f)
+    # # Transforms the series of pictures into an animation
+    # make_gif(files, "animation.gif", delay=5)
+    #
+    # for f in files:
+    #     os.remove(f)
 
 plt.show()

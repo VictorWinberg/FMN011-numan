@@ -154,7 +154,7 @@ def getTwistTop(a, b, d, L, X, Y, Z):
     Z["T3"] = sqrt(1/2 * (L[2]**2 + L[1]**2) - 1/3 * (a**2 + b**2 + b*d + d**2) + (b + 2*d) / sqrt(3) * sqrt(1/3 * a**2 - 1/(4*b**2) * (L[2]**2 - L[1]**2)**2))
     return X, Y, Z
 
-def make3dfig(text):
+def make3dfig():
     fig = plt.figure()
     ax = fig.add_subplot(111, projection='3d')
     ax.set_xlabel('X-axis')
@@ -162,7 +162,6 @@ def make3dfig(text):
     ax.set_zlabel('Z-axis')
     ax.set_xlim3d(-10, 10)
     ax.set_ylim3d(-10, 10)
-    ax.set_zlim3d(-10, 10)
+    ax.set_zlim3d(0, 20)
     ax.set_title("Victor Winberg & Anton Göransson")
-    ax.text(-2, -2, -10, text, (1, 1, 0))
     return ax
