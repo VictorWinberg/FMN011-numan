@@ -4,6 +4,10 @@ from _functions import *
 from mpl_toolkits.mplot3d import Axes3D
 import matplotlib.pyplot as plt
 
+from anim import make_gif, rotanimate
+import numpy as np
+import os, sys
+
 # Task 1
 print(" ----- TASK 1 ----- ")
 print("Lengths = 3 gives: " + str(geval([3 for i in range(0, 8)], 15, 1)))
@@ -57,12 +61,7 @@ for i in range(4):
         # X, Y, Z = solve([-1, 8, 15, 8, 15, 8, 15], r=[8.23,-11,-2.4])
         L = [-1, 8, 15, 8, 15, 8, 15]
         X, Y, Z = getTwistTop(a, b, d, L, X, Y, Z)
-        print("X")
-        print(X)
-        print("Y")
-        print(Y)
-        print("Z")
-        print(Z)
+
     ax.plot_trisurf(*vectTop(X, Y, Z))
 
     X, Y = getBase(b, d, X, Y)
@@ -73,12 +72,18 @@ for i in range(4):
     for j in range(6):
         ax.plot_wireframe(lx[j], ly[j], lz[j], linewidths = 5, colors='gray')
 
+    # angles = np.linspace(0,360,80)[:-1]
+    #
+    # # create an animated gif (20ms between frames)
+    # rotanimate(ax, angles,'fig' + str(i+1) + '.gif', delay=5)
+
 # Animation
 if input("See plots with animation? y/N ") == "y":
     times = ""
     while(times.isdigit() is False):
         times = input("Iterations: ")
 
+    files = []
     ax = make3dfig("Animation")
     L = [-1, 0, 1.05, 2.09, 3.14, 4.19, 5.24]
     legs = []
@@ -96,9 +101,20 @@ if input("See plots with animation? y/N ") == "y":
         for j in range(6):
             legs.append(ax.plot_wireframe(lx[j], ly[j], lz[j], linewidths=7, colors='gray'))
 
+        # # SNAPSHOT
+        # ax.view_init()
+        # fname = '%s%03d.png'%('tmprot_', i)
+        # ax.figure.savefig(fname)
+        # files.append(fname)
+
         plt.pause(.001)
         ax.collections.remove(surf)
         for j in range(6):
             ax.collections.remove(legs.pop())
+
+# make_gif(files, "sickanime.gif", delay=5)
+#
+# for f in files:
+#     os.remove(f)
 
 plt.show()
