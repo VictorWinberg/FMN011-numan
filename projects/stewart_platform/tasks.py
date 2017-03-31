@@ -62,7 +62,7 @@ for i in range(4):
         L = [-1, 8, 15, 8, 15, 8, 15]
         X, Y, Z = getTwistTop(a, b, d, L, X, Y, Z)
 
-    ax.plot_trisurf(*vectTop(X, Y, Z))
+    ax.plot_trisurf(*vectTop(X, Y, Z), color='blue')
 
     X, Y = getBase(b, d, X, Y)
     xb, yb, zb = vectBase(X, Y, 0)
