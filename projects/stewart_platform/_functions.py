@@ -1,13 +1,10 @@
+# -*- coding: utf-8 -
+
 from math import sqrt, sin
 from scipy.optimize import fsolve
 import matplotlib.pyplot as plt
 
 # Task 1
-def h(x, *data):
-    b, d = data
-    P = 1 / (2*b) * b**2
-    return x**2-P**2;
-
 def ph(L, b, d):
     l = [1, 2, 3]
     P = {i: 1 / (2*b) * (b**2 + L[2*i-1]**2 - L[2*i]**2) for i in l}
@@ -45,19 +42,13 @@ def stf(x, *data):
 # Task 3
 def solve_print(r, data):
     a, h, X, Y = data
-    X["T1"], X["T2"], X["T3"] = fsolve(stf, r, data)
-    print(X["T1"], X["T2"], X["T3"])
-    print(stf((X["T1"], X["T2"], X["T3"]), *data))
-
-# Task 4
-def starting_points(x, *data):
-    h, X = data
-    X["T1"], X["T2"], X["T3"] = x
-    return (
-        h[1]**2 - 4*(X["T1"] - X["P1"])**2,
-        h[2]**2 - (X["T2"] - X["P2"])**2,
-        h[3]**2 - 4*(X["T3"] - X["P3"])**2
-    )
+    try:
+        X["T1"], X["T2"], X["T3"] = fsolve(stf, r, data)
+        print(X["T1"], X["T2"], X["T3"])
+        print(stf((X["T1"], X["T2"], X["T3"]), *data))
+    except Exception as e:
+        print("no solution")
+        return
 
 # Task 5
 def getCordsTop(X, Y, h):
@@ -77,12 +68,8 @@ def solve(L, r = None):
     a, b, d = 10, 15, 1
     X, Y, P, h = geval(L, b, d)
 
-    data = h, X
-    X["T1_0"], X["T2_0"], X["T3_0"] = fsolve(starting_points, [-10 for i in range(0, 3)], data)
-    X["T1_1"], X["T2_1"], X["T3_1"] = fsolve(starting_points, [10 for i in range(0, 3)], data)
-
     if r is None:
-        r = (X["T1_0"] + X["T1_1"]) / 2, (X["T2_0"] + X["T2_1"]) / 2, (X["T3_0"] + X["T3_1"]) / 2
+        r = X["P1"], X["P2"], X["P3"]
 
     data = a, h, X, Y
     X["T1"], X["T2"], X["T3"] = fsolve(stf, r, data)

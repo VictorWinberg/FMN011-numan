@@ -1,8 +1,13 @@
+# -*- coding: utf-8 -
+
 from scipy.optimize import fsolve
 from _functions import *
 
 from mpl_toolkits.mplot3d import Axes3D
 import matplotlib.pyplot as plt
+
+import time
+tim = lambda: int(round(time.time() * 1000 * 1000))
 
 from anim import make_gif, rotanimate
 import numpy as np
@@ -11,10 +16,9 @@ import os
 # Task 1
 print(" ----- TASK 1 ----- ")
 print("Lengths = 3 gives: " + str(geval([3 for i in range(8)], 15, 1)))
+start = tim()
 print("Lengths = 8 gives: " + str(geval([8 for i in range(8)], 15, 1)))
-
-data = 15, 1
-print(fsolve(h, 0, args=data)[0])
+print("microsec: " + str(tim() - start))
 
 # Task 2
 print(" ----- TASK 2 ----- ")
@@ -25,25 +29,45 @@ X, Y, P, h = geval(L, b, d)
 
 data = a, h, X, Y
 print(stf((0, 0, 0), *data))
-print(stf((2, -5, 2), *data))
-print(stf((3, -6, 3), *data))
+print(stf((1, 0, 0), *data))
+print(stf((0, 1, 0), *data))
+print(stf((0, 0, 1), *data))
+print(stf((-1, 0, 0), *data))
+print(stf((0, -1, 0), *data))
+start = tim()
+print(stf((0, 0, -1), *data))
+print("microsec: " + str(tim() - start))
 
 # Task 3
 print(" ----- TASK 3 ----- ")
-solve_print((1, -2, 1), data)
+start = tim()
+solve_print((0, 0, 0), data)
+print("microsec: " + str(tim() - start))
+solve_print((1, 0, 0), data)
+solve_print((0, 1, 0), data)
+solve_print((0, 0, 1), data)
+solve_print((-1, 0, 0), data)
+start = tim()
+solve_print((0, -1, 0), data)
+print("microsec: " + str(tim() - start))
+start = tim()
+solve_print((0, 0, -1), data)
+print("microsec: " + str(tim() - start))
+
+print()
+
+start = tim()
 solve_print((2, -5, 2), data)
+print("microsec: " + str(tim() - start))
 solve_print((3, -6, 3), data)
 
 # Task 4
 print(" ----- TASK 4 ----- ")
-data = h, X
-print(fsolve(starting_points, [-10 for i in range(3)], data))
-print(fsolve(starting_points, [10 for i in range(3)], data))
-print()
-
 data = a, h, X, Y
-x = fsolve(stf, (1, -5, 2), data)
-print(x)
+start = tim()
+x = fsolve(stf, (X["P1"], X["P2"], X["P3"]), data)
+print("microsec: " + str(tim() - start))
+print(*x)
 print(stf(x, *data))
 
 # Task 5
