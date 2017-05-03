@@ -22,7 +22,7 @@ def flux(x):
     return -cs(x, 1)
 
 # Task 4 - plot data with curve with first and second derivate
-x = np.linspace(0, 3, num=100)
+x = np.linspace(-0.5, 4.5, num=100)
 
 plt.plot(depths, temperature, 'o', label="data")
 
@@ -39,7 +39,7 @@ plt.annotate('Thermical depth = ' + str(round(root, 3)) + 'm', xy = (root, cs(ro
 
 plt.axvline(x = root, color='k', linestyle='dashed', label='Thermical depth')
 
-plt.legend(loc='best')
+plt.legend(loc='upper right')
 
 # Task 5
 # temperature at a depth of 1.7 m
