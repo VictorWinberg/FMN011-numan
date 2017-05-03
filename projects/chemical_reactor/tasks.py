@@ -14,12 +14,12 @@ cs = CubicSpline(depths, temperature, bc_type='clamped')
 # Task 2 - determine the thermocline depth
 root = fsolve(cs, 1, args=2)[0]
 print('thermocline depth: ' + str(root))
-plt.text(0.05, 150, 'thermocline depth: ' + str(round(root, 2)) + 'm')
+plt.text(0.05, 170, 'thermocline depth: ' + str(round(root, 2)) + 'm')
 
 # Task 3 - compute the flux
-# = -cs(x, 1)
-def flux(x):
-    return -cs(x, 1)
+flux = -cs(root, 1)
+print('heat flux: ' + str(flux))
+plt.text(0.05, 150, 'heat flux: J = ' + str(round(flux, 2)))
 
 # Task 4 - plot data with curve with first and second derivate
 x = np.linspace(-0.5, 4.5, num=100)
