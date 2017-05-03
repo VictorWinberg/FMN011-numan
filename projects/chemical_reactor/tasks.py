@@ -14,12 +14,12 @@ cs = CubicSpline(depths, temperature, bc_type='clamped')
 # Task 2 - determine the thermocline depth
 root = fsolve(cs, 1, args=2)[0]
 print('thermocline depth: ' + str(root))
-plt.text(0.05, 170, 'thermocline depth: ' + str(round(root, 2)) + 'm')
+#plt.text(0.05, 170, 'thermocline depth: ' + str(round(root, 2)) + 'm')
 
 # Task 3 - compute the flux
 flux = -cs(root, 1)
 print('heat flux: ' + str(flux))
-plt.text(0.05, 150, 'heat flux: J = ' + str(round(flux, 2)))
+#plt.text(0.05, 150, 'heat flux: J = ' + str(round(flux, 2)))
 
 # Task 4 - plot data with curve with first and second derivate
 x = np.linspace(-0.5, 4.5, num=100)
@@ -33,29 +33,32 @@ plt.plot(x, cs(x), label="S")
 plt.plot(x, cs(x, 1), label="S'")
 plt.plot(x, cs(x, 2), label="S''")
 
-plt.plot(x, -cs(x,1), label='Heat flux')
+#plt.plot(x, -cs(x,1), label='Heat flux')
 
-plt.annotate('Thermical depth = ' + str(round(root, 3)) + 'm', xy = (root, cs(root, 2)), xytext = (1.8, -100), arrowprops = dict(facecolor='black', shrink = 0.05))
+#plt.annotate('Thermical depth = ' + str(round(root, 3)) + 'm', xy = (root, cs(root, 2)), xytext = (1.8, -100), arrowprops = dict(facecolor='black', shrink = 0.05))
 
-plt.axvline(x = root, color='k', linestyle='dashed', label='Thermical depth')
+plt.axvline(x = root, color='k', linestyle='dashed', label='språngskikte')
 
 plt.legend(loc='upper right')
+
+plt.xlabel('Djup (m)')
+plt.ylabel(u'Temperatur (\N{DEGREE SIGN}C)')
 
 # Task 5
 # temperature at a depth of 1.7 m
 depth = 1.7
 temp = cs(depth)
 
-plt.plot(depth, temp, 'o')
+#plt.plot(depth, temp, 'o')
 print('temp at depth 1.7m: ' + str(temp))
-plt.text(0.05, 130, 'temp at depth 1.7m: ' + str(np.round(temp, 2)) + u'\N{DEGREE SIGN}C')
+#plt.text(0.05, 130, 'temp at depth 1.7m: ' + str(np.round(temp, 2)) + u'\N{DEGREE SIGN}C')
 
 # depth at which the temperature is 50 ◦C.
 temp = 50
 depth = fsolve(lambda x: cs(x) - temp, 1)[0]
 
-plt.plot(depth, temp, 'o')
+#plt.plot(depth, temp, 'o')
 print('depth at 50 deg: ' + str(depth))
-plt.text(0.05, 110, u'depth at temp 50\N{DEGREE SIGN}C: ' + str(round(depth, 2)) + 'm')
+#plt.text(0.05, 110, u'depth at temp 50\N{DEGREE SIGN}C: ' + str(round(depth, 2)) + 'm')
 
 plt.show()
