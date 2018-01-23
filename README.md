@@ -1,4 +1,4 @@
-# FMN011-numan
+# fmn011
 ### Numerical Analysis for Computer Scientists ###
 
 * How to run all exercises from one week (Warning: A lot of plots!)
