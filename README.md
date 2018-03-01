@@ -1,5 +1,5 @@
 # fmn011
-### Numerical Analysis for Computer Scientists ###
+Numerical Analysis | Computer Science
 
 * How to run all exercises from one week (Warning: A lot of plots!)
 ```
